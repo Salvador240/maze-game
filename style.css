@@ -1,0 +1,49 @@
+/* * {
+    --cell-width: 20px;
+    --cell-height: var(--cell-width);
+} */
+
+#board {
+    position: relative;
+    z-index: -1;
+}
+
+#player {
+    
+width:100%;
+height:100%;
+background-image: url("vivid-abstract-background-beautiful-design-260nw-1196466811.jpg");
+background-size: contain;
+
+}
+
+ .row {
+display: flex;
+/* justify-content: center; */
+} 
+
+.wall{
+  width:20px;
+  height:20px;
+  background-color: blue;
+}
+#start{
+    width:20px;
+    height:20px;
+    background-color:green;
+}
+.finish{
+    width:20px;
+    height:20px;
+    background-color:yellow;
+}
+
+.space{
+    width:20px;
+    height:20px;
+    
+}
+
+button {
+    background-color: deepskyblue;
+}
