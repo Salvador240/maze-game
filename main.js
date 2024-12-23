@@ -15,134 +15,117 @@ const map = [
     "W       W       W   W",
     "WWWWWWWWWWWWWWWWWWWWW",
 ];
-let rowIndex, columnIndex
-let player = document.getElementById("player");
-let board = document.getElementById("board")
 
-let replayButton = document.getElementById('replayButton')
-replayButton.style.display = 'none'
+let rowIndex, columnIndex;
+let player = document.getElementById("player");
+let board = document.getElementById("board");
+
+let resetButton = document.getElementById('resetButton');
+resetButton.style.display = 'none';
 
 function createBoard() {
-   
+    board.innerHTML = ''; // Clear the board before creating it
     for (let i = 0; i < map.length; i++) {
-        let rowElement = document.createElement("div")
-        rowElement.id = "row" + i
-        rowElement.className = "row"
+        let rowElement = document.createElement("div");
+        rowElement.id = "row" + i;
+        rowElement.className = "row";
 
         for (let j = 0; j < map[i].length; j++) {
-            let cellElement = document.createElement("div")
-            cellElement.id = "cell"
-            cellElement.dataset.cellIndex = j
-            cellElement.dataset.rowIndex = i
+            let cellElement = document.createElement("div");
+            cellElement.dataset.cellIndex = j;
+            cellElement.dataset.rowIndex = i;
             if (map[i][j] === "W") {
-                cellElement.className = "wall"
+                cellElement.className = "wall";
             } else if (map[i][j] === " ") {
-                cellElement.className = "space"
+                cellElement.className = "space";
             } else if (map[i][j] === "S") {
-                // player.style.top = (30 * i) + "px"
-                // player.style.left = (30 * j) + "px"
-                cellElement.id = "start"
-                rowIndex = i
-                columnIndex = j
+                cellElement.id = "start";
+                rowIndex = i;
+                columnIndex = j;
             } else if (map[i][j] === "F") {
-                cellElement.className = "finish"
+                cellElement.className = "finish";
             }
-            // console.log(cellElement)
-            rowElement.appendChild(cellElement)
+            rowElement.appendChild(cellElement);
         }
-        board.appendChild(rowElement)
+        board.appendChild(rowElement);
     }
+    document.getElementById("start").appendChild(player);
 }
 createBoard();
 
+function movePlayer(newRowIndex, newColumnIndex) {
+    if (map[newRowIndex][newColumnIndex] === " " || map[newRowIndex][newColumnIndex] === "F") {
+        let newCell = document.querySelector(`[data-row-index='${newRowIndex}'][data-cell-index='${newColumnIndex}']`);
+        newCell.appendChild(player);
+        rowIndex = newRowIndex;
+        columnIndex = newColumnIndex;
+        checkWin(newRowIndex, newColumnIndex);
+    }
+}
 
 function moveUp() {
-    checkWin(rowIndex - 1,columnIndex);
-    if (map[rowIndex - 1][columnIndex] == " ") {
-        let rowUp = rowIndex - 1
-        let cellUp = document.querySelector("[data-row-index='" + rowUp + "'][data-cell-index='" + columnIndex + "']")
-        console.log(rowIndex - 1,columnIndex,map[rowIndex - 1][columnIndex])
-        cellUp.appendChild(player);
-        rowIndex = rowIndex - 1
-    }
+    movePlayer(rowIndex - 1, columnIndex);
 }
+
 function moveDown() {
-    checkWin(rowIndex + 1,columnIndex)
-    if (map[rowIndex + 1][columnIndex] == " ") {
-        let rowDown = rowIndex + 1
-        let cellDown = document.querySelector("[data-row-index='" + rowDown + "'][data-cell-index='" + columnIndex + "']")
-        console.log(cellDown)
-        cellDown.appendChild(player);
-        rowIndex = rowIndex + 1
-    }
+    movePlayer(rowIndex + 1, columnIndex);
 }
+
 function moveLeft() {
-    checkWin(rowIndex,columnIndex - 1)
-    console.log(columnIndex - 1,columnIndex - 1, map[rowIndex][columnIndex - 1])
-    if (map[rowIndex][columnIndex - 1] == " " || map[rowIndex][columnIndex - 1] == "S") {
-        let columnLeft = columnIndex - 1
-        let cellLeft = document.querySelector("[data-cell-index='" + columnLeft + "'][data-row-index='" + rowIndex + "']")
-        
-        cellLeft.appendChild(player);
-        columnIndex = columnIndex - 1
-    }
+    movePlayer(rowIndex, columnIndex - 1);
 }
+
 function moveRight() {
-    console.log(columnIndex + 1,rowIndex,map[rowIndex][columnIndex + 1])
-    checkWin(rowIndex,columnIndex + 1)
-    if (map[rowIndex][columnIndex + 1] == " " || map[rowIndex][columnIndex + 1] == "F") {
-        
-        let columnRight = columnIndex + 1
-        let cellRight = document.querySelector("[data-cell-index='" + columnRight + "'][data-row-index='" + rowIndex + "']")
-        
-        cellRight.appendChild(player);
-        columnIndex = columnIndex + 1
-    }
+    movePlayer(rowIndex, columnIndex + 1);
 }
 
-document.addEventListener('keydown', keyHandler )
+document.addEventListener('keydown', keyHandler);
 
-function keyHandler() {
+function keyHandler(event) {
     const keyName = event.key;
-    // console.log('keydown event\n\n' + 'key: ' + keyName);
     if (keyName === "ArrowUp") {
-        moveUp()
-    }else if (keyName === "ArrowDown"){
-        moveDown()
-    }else if (keyName === "ArrowLeft"){
-        moveLeft()
-    }else if (keyName === "ArrowRight"){
-        moveRight()
+        moveUp();
+    } else if (keyName === "ArrowDown") {
+        moveDown();
+    } else if (keyName === "ArrowLeft") {
+        moveLeft();
+    } else if (keyName === "ArrowRight") {
+        moveRight();
     }
 }
 
+function checkWin(row, col) {
+    if (map[row][col] === "F") {
+        let winModal = document.getElementById("winModal");
+        winModal.style.display = "flex";
+        document.removeEventListener('keydown', keyHandler);
+        resetButton.style.display = 'block';
+    }
+}
 
-document.getElementById("start").appendChild(player)
-
-function checkWin(row,col){
+document.getElementById("resetButton").onclick = function() {
+    // Hide the win modal
+    let winModal = document.getElementById("winModal");
+    winModal.style.display = "none";
     
-    if (map[row][col] === "F"){ 
-        //let cellUp = document.querySelector("[data-row-index='" + row + "'][data-cell-index='" + col + "']")
-        // cellUp.appendChild(player);
-        // alert("You won!!!")
-        //window.location.reload(true)
-        let winMsg = document.createElement("div")
-        let winText = document.createTextNode("YOU WIN")
-        winMsg.appendChild(winText)       
-        document.body.appendChild(winMsg) 
-        replayButton.style.display = 'block'
-        document.removeEventListener('keydown', keyHandler)
-    }
+    // Reset the game state
+    createBoard();
+    document.addEventListener('keydown', keyHandler);
+    resetButton.style.display = 'none';
 }
 
- document.getElementById("replayButton").onclick = function() {
-     window.location.reload(true)
-   }
-   
-   
-//    let endResult = document.getElementById("msg")
-//   endResult.className = "bar";
+// Ensure the win modal is hidden on page load
+let modal = document.getElementById("winModal");
+modal.style.display = "none";
 
-//    endResultText = document.createTextNode(msg);
-//    endResult.appendChild(endResultText);
-//    container.className = "disableDiv";
+let span = document.getElementsByClassName("close")[0];
+
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}

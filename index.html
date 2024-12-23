@@ -9,12 +9,17 @@
 </head>
 <body>
     <h1>MAZE</h1>
-  
     <div id="board">
         <div id="player"></div>
     </div>
     <div id="msgDiv"></div>
-    <button id="replayButton">Replay</button>
+    <button id="resetButton">Replay</button>
+    <div id="winModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="winMessage">Congratulations! You won!</p>
+        </div>
+    </div>
     <script src="main.js"></script>
 </body>
 </html>
