@@ -1,3 +1,4 @@
+// Define the maze map
 const map = [
     "WWWWWWWWWWWWWWWWWWWWW",
     "W   W     W     W W W",
@@ -16,13 +17,14 @@ const map = [
     "WWWWWWWWWWWWWWWWWWWWW",
 ];
 
-let rowIndex, columnIndex;
-let player = document.getElementById("player");
-let board = document.getElementById("board");
+let rowIndex, columnIndex; // Player's current position
+let player = document.getElementById("player"); // Player element
+let board = document.getElementById("board"); // Game board element
 
-let resetButton = document.getElementById('resetButton');
-resetButton.style.display = 'none';
+let resetButton = document.getElementById('resetButton'); // Reset button element
+resetButton.style.display = 'none'; // Hide reset button initially
 
+// Function to create the game board
 function createBoard() {
     board.innerHTML = ''; // Clear the board before creating it
     for (let i = 0; i < map.length; i++) {
@@ -49,20 +51,22 @@ function createBoard() {
         }
         board.appendChild(rowElement);
     }
-    document.getElementById("start").appendChild(player);
+    document.getElementById("start").appendChild(player); // Place the player at the start position
 }
-createBoard();
+createBoard(); // Initialize the game board
 
+// Function to move the player to a new position
 function movePlayer(newRowIndex, newColumnIndex) {
     if (map[newRowIndex][newColumnIndex] === " " || map[newRowIndex][newColumnIndex] === "F") {
         let newCell = document.querySelector(`[data-row-index='${newRowIndex}'][data-cell-index='${newColumnIndex}']`);
         newCell.appendChild(player);
         rowIndex = newRowIndex;
         columnIndex = newColumnIndex;
-        checkWin(newRowIndex, newColumnIndex);
+        checkWin(newRowIndex, newColumnIndex); // Check if the player has reached the finish
     }
 }
 
+// Functions to move the player in different directions
 function moveUp() {
     movePlayer(rowIndex - 1, columnIndex);
 }
@@ -79,6 +83,7 @@ function moveRight() {
     movePlayer(rowIndex, columnIndex + 1);
 }
 
+// Event listener for keyboard input
 document.addEventListener('keydown', keyHandler);
 
 function keyHandler(event) {
@@ -94,15 +99,17 @@ function keyHandler(event) {
     }
 }
 
+// Function to check if the player has reached the finish
 function checkWin(row, col) {
     if (map[row][col] === "F") {
         let winModal = document.getElementById("winModal");
         winModal.style.display = "flex";
-        document.removeEventListener('keydown', keyHandler);
-        resetButton.style.display = 'block';
+        document.removeEventListener('keydown', keyHandler); // Disable keyboard input
+        resetButton.style.display = 'block'; // Show the reset button
     }
 }
 
+// Event listener for the reset button
 document.getElementById("resetButton").onclick = function() {
     // Hide the win modal
     let winModal = document.getElementById("winModal");
@@ -110,20 +117,21 @@ document.getElementById("resetButton").onclick = function() {
     
     // Reset the game state
     createBoard();
-    document.addEventListener('keydown', keyHandler);
-    resetButton.style.display = 'none';
+    document.addEventListener('keydown', keyHandler); // Re-enable keyboard input
+    resetButton.style.display = 'none'; // Hide the reset button
 }
 
 // Ensure the win modal is hidden on page load
 let modal = document.getElementById("winModal");
 modal.style.display = "none";
 
+// Event listener for closing the modal
 let span = document.getElementsByClassName("close")[0];
-
 span.onclick = function() {
     modal.style.display = "none";
 }
 
+// Event listener for clicking outside the modal to close it
 window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";

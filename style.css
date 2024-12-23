@@ -1,3 +1,4 @@
+/* General styles for the body */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #282c34;
@@ -13,12 +14,14 @@ body {
     color: #fff;
 }
 
+/* Styles for the heading */
 h1 {
     color: #61dafb;
     margin-bottom: 20px;
     text-align: center;
 }
 
+/* Styles for the game board */
 #board {
     display: flex;
     flex-direction: column;
@@ -29,6 +32,7 @@ h1 {
     margin-bottom: 20px;
 }
 
+/* Styles for the player */
 #player {
     width: 20px;
     height: 20px;
@@ -38,33 +42,39 @@ h1 {
     transition: all 0.3s ease;
 }
 
+/* Styles for the rows in the game board */
 .row {
     display: flex;
 }
 
+/* Styles for the wall cells */
 .wall {
     width: 20px;
     height: 20px;
     background-color: #1e90ff; /* Modern color for the walls */
 }
 
+/* Styles for the start cell */
 #start {
     width: 20px;
     height: 20px;
     background-color: #32cd32; /* Modern color for the start */
 }
 
+/* Styles for the finish cell */
 .finish {
     width: 20px;
     height: 20px;
     background-color: #ffeb3b; /* Modern color for the finish */
 }
 
+/* Styles for the space cells */
 .space {
     width: 20px;
     height: 20px;
 }
 
+/* Styles for the button */
 button {
     background-color: deepskyblue;
     padding: 10px 20px;
@@ -82,6 +92,7 @@ button:hover {
     background-color: #555;
 }
 
+/* Styles for the modal */
 .modal {
     display: none;
     position: fixed;
@@ -97,6 +108,7 @@ button:hover {
     justify-content: center;
 }
 
+/* Styles for the modal content */
 .modal-content {
     background-color: #fefefe;
     padding: 20px;
@@ -109,6 +121,7 @@ button:hover {
     color: #000;
 }
 
+/* Styles for the close button in the modal */
 .close {
     color: #aaa;
     float: right;
@@ -123,12 +136,13 @@ button:hover {
     cursor: pointer;
 }
 
+/* Keyframes for the fade-in animation */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
 
-/* Responsive styles */
+/* Responsive styles for screens smaller than 600px */
 @media (max-width: 600px) {
     #board {
         transform: scale(0.8);
@@ -155,6 +169,7 @@ button:hover {
     }
 }
 
+/* Responsive styles for screens smaller than 400px */
 @media (max-width: 400px) {
     #board {
         transform: scale(0.6);
